@@ -47,14 +47,31 @@
             content: "";
             position: absolute;
             bottom: -20px;
-            left: 20px;
+            right: 20px;
             border-style: solid;
+            border-width: 20px 20px 20px 20px;
+            border-color: transparent white transparent transparent;
+        }
+
+        .chat-bubble.left:after {
+            left: 20px;
+            right: auto;
+            bottom: -20px;
+
             border-width: 20px 20px 0 0;
             border-color: white transparent transparent transparent;
         }
 
         .chatbot-bubble {
             text-align: left;
+        }
+
+        .timestamp {
+            font-size: 7px;
+            color: gray;
+            position: absolute;
+            bottom: -14px;
+            right: 0;
         }
 
         form {
@@ -92,18 +109,40 @@
     <img id="chatbot-img" src="https://i.seadn.io/gcs/files/264c31ce4ae4cfc313ca90e8d34c5786.png?auto=format&w=1000"
         alt="감정챗봇 이미지">
     <div class="chat-container">
-        <div class="chat-bubble">안녕하세요! 어떤 일이 있으신가요?</div>
+        <div class="chat-bubble">안녕하세요</div>
     </div>
     <form>
-        <label for="user-input"> </label>
+        <label for="user-input"></label>
         <input type="text" id="user-input" name="user-input" placeholder="감정적인 대화를 시작하세요">
         <button type="submit">전송</button>
     </form>
     <script>
-
         const chatContainer = document.querySelector('.chat-container');
         const userInput = document.querySelector('#user-input');
         const apiUrl = 'https://api.adviceslip.com/advice';
+        function getCurrentTime() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+            return timeString;
+        }
+        function createChatBubble(text, position, timestamp) {
+            const bubble = document.createElement('div');
+            bubble.classList.add('chat-bubble');
+            bubble.innerText = text;
+            const timestampElement = document.createElement('div');
+            timestampElement.innerText = timestamp;
+            timestampElement.classList.add('timestamp');
+            bubble.appendChild(timestampElement);
+            if (position === 'left') {
+                bubble.classList.add('left');
+            } else if (position === 'right') {
+                bubble.classList.add('right');
+            }
+            chatContainer.appendChild(bubble);
+        }
+
 
         function getChatbotResponse() {
             fetch(apiUrl)
@@ -113,7 +152,8 @@
                     const chatEmoji = ['😄', '🫥', '😡'];
                     const randomEmoji = chatEmoji[Math.floor(Math.random() * chatEmoji.length)];
                     const responseMessage = `${randomEmoji} ${chatbotResponse}`;
-                    chatContainer.innerHTML += `<div class="chat-bubble chatbot-bubble">${responseMessage}</div>`;
+                    const timestamp = getCurrentTime();
+                    createChatBubble(responseMessage, 'left', timestamp);
                 })
                 .catch(error => console.log(error));
         }
@@ -121,9 +161,12 @@
         document.querySelector('form').addEventListener('submit', event => {
             event.preventDefault();
             const userMessage = userInput.value;
-            chatContainer.innerHTML += `<div class="chat-bubble user-bubble">You said: ${userMessage}</div>`;
+            const timestamp = getCurrentTime();
+            createChatBubble(`You said: ${userMessage}`, 'right', timestamp);
             userInput.value = '';
             setTimeout(getChatbotResponse, 1000);
         });
     </script>
 </body>
+
+</html>
