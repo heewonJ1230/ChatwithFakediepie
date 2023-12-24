@@ -1,8 +1,30 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat with 짭디파이</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        #chat-container { width: 80%; margin: auto; max-width: 800px; }
+        #chat-box { height: 240px; border: 1px solid #ddd; overflow: auto; padding: 10px; }
+        #user-input { width: 100%; padding: 10px; }
+        .chat-bubble { border-radius: 10px; padding: 5px 10px; margin: 5px; display: inline-block; }
+        .user { background-color: #d0e0ff; }
+        .gpt { background-color: #e0ffe0; }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <div id="chat-box"></div>
+        <input type="text" id="user-input" placeholder="Type your message here..." autofocus>
+    </div>
+
+    <script>
+      
 <html>
 
 <head>
-    <title>감정챗봇</title>
+    <title>Chat wirh 짭디파이</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/x-icon" href="data:image/x-icon;,">
@@ -10,6 +32,7 @@
         href="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/282/sparkling-heart_1f496.png">
     <style>
         body {
+            font-family: Arial, sans-serif; margin: 0; padding: 0; 
             background-color: #413E98;
         }
 
@@ -30,17 +53,32 @@
             flex-direction: column;
             align-items: flex-end;
         }
-
+        #chat-box {             
+            position: absolute;
+            top: 50%;
+            right: 20%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            height: 240px; 
+            border: 1px 
+            solid #ddd; 
+            overflow: auto; 
+            padding: 10px; }
+        #user-input { width: 100%; padding: 10px; }
+        .user { background-color: #d0e0ff; }
+        .gpt { background-color: #e0ffe0; }
         .chat-bubble {
-            background-color: white;
-            border-radius: 20px;
-            box-shadow: 5px 5px 5px grey;
-            margin-bottom: 20px;
-            max-width: 60%;
-            position: relative;
-            padding: 20px;
-            font-size: 1.1rem;
-            color: #413E98;
+                background-color: white;
+                border-radius: 20px;
+                box-shadow: 5px 5px 5px grey;
+                margin-bottom: 20px;
+                max-width: 60%;
+                position: relative;
+                padding: 20px;
+                font-size: 1.1rem;
+                color: #413E98;
         }
 
         .chat-bubble:after {
@@ -107,16 +145,70 @@
 
 <body>
     <img id="chatbot-img" src="https://i.seadn.io/gcs/files/264c31ce4ae4cfc313ca90e8d34c5786.png?auto=format&w=1000"
-        alt="감정챗봇 이미지">
-    <div class="chat-container">
-        <div class="chat-bubble">안녕하세요</div>
+        alt="짭디파이 이미지">
+     
+    <div class="chat-container" id="chat-container">
+        <div class="chat-bubble">헤이 안뇽, 짭디파이입니다 </div>
     </div>
     <form>
+        <div id="chat-container">
+        <div id="chat-box"></div>
         <label for="user-input"></label>
-        <input type="text" id="user-input" name="user-input" placeholder="감정적인 대화를 시작하세요">
+        <input type="text" id="user-input" name="user-input" placeholder="짭디파이에게 메세지를 써보쎄용" autofocus>
         <button type="submit">전송</button>
     </form>
     <script>
+              document.getElementById('user-input').addEventListener('keypress', async function (e) {
+            if (e.key === 'Enter') {
+                var userInputField = this;
+                var userInput = userInputField.value;
+                userInputField.value = '';
+                userInputField.disabled = true; // 입력 필드 비활성화
+
+                var chatBox = document.getElementById('chat-box');
+                chatBox.innerHTML += '<div class="chat-bubble user">유저: ' + userInput + '</div>';
+
+                var loadingText = document.createElement('div');
+                loadingText.className = 'chat-bubble gpt';
+                loadingText.innerText = '잠만...';
+                chatBox.appendChild(loadingText);
+
+                try {
+                    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': 'Bearer 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', // API 키
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            model: "gpt-4",
+                            messages: [
+                                {"role": "system", "content": "You are a gaming YouTuber who looks like F***DiePie"},
+                                {"role": "system", "content": "You're 15 years old and speak like any other teenager with abbreviations and a slightly lighter style"},
+                                {"role": "system", "content": "You also occasionally slip in a swear word along with appropriate emoji usage"},
+                                {"role": "system", "content": "Your name is FakeDiePie, which means 짭디파이 in Korean."},    
+ {"role": "system", "content": "This conversation takes place in both Korean and English."},
+
+                                {"role": "user", "content": userInput }
+                            ]
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`API 요청 오류: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    loadingText.innerText = '짭디파이: ' + data.choices[0].message.content;
+                } catch (error) {
+                    console.error('Error:', error);
+                    loadingText.innerText = '오류가 발생했습니다: ' + error.message;
+                } finally {
+                    userInputField.disabled = false; // 입력 필드 다시 활성화
+                }
+            }
+        });
+
         const chatContainer = document.querySelector('.chat-container');
         const userInput = document.querySelector('#user-input');
         const apiUrl = 'https://api.adviceslip.com/advice';
