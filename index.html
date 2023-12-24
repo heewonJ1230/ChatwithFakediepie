@@ -78,13 +78,16 @@
                 font-size: 1.1rem;
                 color: #413E98;
                 display: inline-block
-                background-color: white;
+
         } 
         .chat-bubble:after {
             content: "";
             position: absolute;
             bottom: -20px;
             right: 20px;
+            
+            background-color: white;
+            
             border-style: solid;
             border-width: 20px 20px 20px 20px;
             border-color: transparent white transparent transparent;
@@ -92,8 +95,10 @@
         .chat-bubble.left:after {
             left: 20px;
             right: auto;
+            
+            background-color: white;
+            
             bottom: -20px;
-
             border-width: 20px 20px 0 0;
             border-color: white transparent transparent transparent;
         }
