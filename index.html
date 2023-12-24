@@ -108,7 +108,7 @@
     </form>
     <div id="chat-box"></div>
 
-    <script>
+    <script src="server.js">
         document.getElementById('chat-form').addEventListener('submit', async function (e) {
             e.preventDefault();
 
@@ -129,7 +129,6 @@
                 const response = await fetch('https://api.openai.com/v1/chat/completions', {
                     method: 'POST',
                     headers: {
-                        'Authorization': 'Bearer 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', // API 키
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
