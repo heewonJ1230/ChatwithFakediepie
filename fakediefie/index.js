@@ -8,11 +8,10 @@
  */
 
 // Import the functions you need from the SDKs you need
-const functions = require(firebase-functions);
+const functions = require("firebase-functions");
 // ... 여기에 여치니의 다른 import 문장들이 있을 수 있어요 ...
 
 // OpenAI API 키를 가져옵니다.
-const OPENAI_API_KEY = functions.config().openai.key;
 
 // 여기에 여치니의 함수 코드들이 있을 거예요
 exports.yourFunction = functions.https.onRequest((request, response) => {
