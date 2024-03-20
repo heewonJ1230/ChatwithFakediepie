@@ -8,7 +8,7 @@
  */
 
 // Import the functions you need from the SDKs you need
-const functions = require('firebase-functions');
+const functions = require(firebase-functions);
 // ... 여기에 여치니의 다른 import 문장들이 있을 수 있어요 ...
 
 // OpenAI API 키를 가져옵니다.
