@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Chat with 짭디파이</title>
     <meta charset="UTF-8">
@@ -8,7 +9,13 @@
     <link rel="icon" type="image/png" sizes="32x32"
         href="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/282/sparkling-heart_1f496.png">
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #413E98; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #413E98;
+        }
+
         input[type="text"] {
             padding: 10px;
             border-radius: 10px;
@@ -16,6 +23,7 @@
             width: 500px;
             font-size: 1.1rem;
         }
+
         form {
             position: absolute;
             bottom: 50px;
@@ -25,6 +33,7 @@
             justify-content: center;
             align-items: center;
         }
+
         button {
             background-color: white;
             color: #413E98;
@@ -36,8 +45,14 @@
             cursor: pointer;
             font-size: 1.1rem;
         }
-        #chat-container { width: 80%; margin: auto; max-width: 800px; }
-        #chat-box {             
+
+        #chat-container {
+            width: 80%;
+            margin: auto;
+            max-width: 800px;
+        }
+
+        #chat-box {
             position: absolute;
             top: 50%;
             right: 20%;
@@ -45,12 +60,17 @@
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            height: 240px; 
-            border: 1px solid #ddd; 
-            overflow: auto; 
-            padding: 10px; 
+            height: 240px;
+            border: 1px solid #ddd;
+            overflow: auto;
+            padding: 10px;
         }
-        #user-input { width: 100%; padding: 10px; }
+
+        #user-input {
+            width: 100%;
+            padding: 10px;
+        }
+
         #chatbot-img {
             position: absolute;
             top: 50%;
@@ -58,6 +78,7 @@
             height: 800px;
             transform: translateY(-50%);
         }
+
         .chat-bubble {
             border-radius: 20px;
             box-shadow: 5px 5px 5px grey;
@@ -71,16 +92,18 @@
             display: inline-block;
             text-align: left;
             background-color: white;
-        } 
+        }
+
         .chat-bubble:after {
             content: "";
             position: absolute;
             bottom: -20px;
-            right: 20px;            
+            right: 20px;
             border-style: solid;
             border-width: 20px 20px 20px 20px;
             border-color: transparent white transparent transparent;
         }
+
         .chat-bubble.user:after {
             left: 20px;
             right: auto;
@@ -88,6 +111,7 @@
             border-width: 20px 20px 0 0;
             border-color: #d0e0ff transparent transparent transparent;
         }
+
         .timestamp {
             font-size: 7px;
             color: gray;
@@ -95,10 +119,17 @@
             bottom: -14px;
             right: 0;
         }
-        .user { background-color: #d0e0ff; }
-        .gpt { background-color: white; }
+
+        .user {
+            background-color: #d0e0ff;
+        }
+
+        .gpt {
+            background-color: white;
+        }
     </style>
 </head>
+
 <body>
     <img id="chatbot-img" src="https://i.seadn.io/gcs/files/264c31ce4ae4cfc313ca90e8d34c5786.png?auto=format&w=1000"
         alt="짭디파이 이미지">
@@ -127,7 +158,7 @@
             chatBox.appendChild(loadingText);
 
             try {
-                const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                const response = await fetch('/api/openai', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -135,12 +166,12 @@
                     body: JSON.stringify({
                         model: "gpt-4",
                         messages: [
-                            {"role": "system", "content": "You are a gaming YouTuber who looks like F***DiePie"},
-                            {"role": "system", "content": "You're 15 years old and speak like any other teenager with abbreviations and a slightly lighter style"},
-                            {"role": "system", "content": "You also occasionally slip in a swear word along with appropriate emoji usage"},
-                            {"role": "system", "content": "Your name is FakeDiePie, which means 짭디파이 in Korean."},    
-                            {"role": "system", "content": "This conversation takes place in both Korean and English."},
-                            {"role": "user", "content": userInput }
+                            { "role": "system", "content": "You are a gaming YouTuber who looks like F***DiePie" },
+                            { "role": "system", "content": "You're 15 years old and speak like any other teenager with abbreviations and a slightly lighter style" },
+                            { "role": "system", "content": "You also occasionally slip in a swear word along with appropriate emoji usage" },
+                            { "role": "system", "content": "Your name is FakeDiePie, which means 짭디파이 in Korean." },
+                            { "role": "system", "content": "This conversation takes place in both Korean and English." },
+                            { "role": "user", "content": userInput }
                         ]
                     })
                 });
@@ -160,4 +191,5 @@
         });
     </script>
 </body>
+
 </html>
