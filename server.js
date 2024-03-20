@@ -32,7 +32,6 @@ app.use(express.static('public'));
 // 루트 경로에 대한 GET 요청 처리
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
-    res.send('Welcome to the server!');
 });
 
 app.listen(PORT, () => {
